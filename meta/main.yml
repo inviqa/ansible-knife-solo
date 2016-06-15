@@ -1,0 +1,21 @@
+---
+galaxy_info:
+  author: "inviqa"
+  description: "runs the knife-solo (https://matschaffer.github.io/knife-solo/) against the provisioned server."
+  company: "Inviqa UK Ltd"
+  license: MIT
+  min_ansible_version: 1.5
+  platforms:
+    - name: EL
+      versions:
+        - 6
+        - 7
+    - name: Fedora
+      versions:
+        - 22
+  categories:
+    - provisioning
+    - automation
+
+dependencies: []
+...
