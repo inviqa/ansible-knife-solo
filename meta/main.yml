@@ -13,9 +13,21 @@ galaxy_info:
     - name: Fedora
       versions:
         - 22
+    - name: Debian
+      versions:
+        - all
+    - name: Ubuntu
+      versions:
+        - precise
+        - quantal
+        - raring
+        - saucy
+        - trusty
   categories:
-    - provisioning
     - automation
+    - provisioning
 
 dependencies: []
+
+
 ...
