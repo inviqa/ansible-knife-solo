@@ -1,0 +1,35 @@
+---
+- name: Get knife status
+  local_action: shell type knife
+  register: knife_status
+  ignore_errors: True
+
+- name: Check if knife is installed
+  set_fact:
+    knife_is_installed: "{{ not knife_status.stderr }}"
+
+- name: Show warning if knife solo is not installed
+  local_action: shell echo "Warning ==> Knife solo is not installed"
+  when: not knife_is_installed
+
+
+- name: Copy ansible_ssh_host in a var for using in local_action
+  set_fact:
+      chef_ssh_host: "{{ ansible_ssh_host }}"
+
+- name: Run knife solo prepare
+  local_action: command knife solo prepare --environment {{environment}} root@{{chef_ssh_host}}
+  args:
+      chdir: ../chef
+  when: knife_is_installed
+
+- name: Run knife solo cook
+  local_action: command knife solo cook root@{{chef_ssh_host}}
+  args:
+      chdir: ../chef
+  when: knife_is_installed
+  register: chef_output
+  ignore_errors: true
+
+- debug: var=chef_output.stdout_lines
+...

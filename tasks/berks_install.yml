@@ -1,0 +1,14 @@
+---
+- name: Check if berks installed
+  local_action: shell type berks
+  register: berks_is_installed
+  ignore_errors: True
+
+- fail: msg="Error ==> Berkshelf is not installed"
+  when: "'not found' in berks_is_installed.stderr"
+
+- name: Run berks install
+  local_action: command berks install
+  args:
+    chdir: ../chef
+...

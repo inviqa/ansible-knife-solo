@@ -1,11 +1,5 @@
 ---
-- name: Add ‘root’ user to sudoers.d
-  template: >
-    src=’root-sudoers.j2'
-    dest="/etc/sudoers.d/root-ansible"
-    owner='root'
-    group='root'
-    mode='0440'
-    validate='visudo -cf %s'
-  when: ansible_os_family == 'RedHat'
+#- include:  berks_install.yml
+#- include:  chef_user.yml
+- include:  knife_solo.yml
 ...
