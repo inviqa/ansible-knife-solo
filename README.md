@@ -12,11 +12,20 @@ gem "knife-solo_data_bag", "~> 1.1.0"
 ```
 ## Role Variables
 ------------
-#### [`exaple`][example]
+#### chef_user
+Default: root
+
+Define the user using which knife solo should run. It must be a sudo user.
+
+#### chef_dir
+Default: ../chef
+
+Path to your chef directory where knife solo should run.
+
+#### chef_environment
 Default: none
 
-Description
-
+Environment name which will be used by knife solo prepare.
 
 
 ## Example Playbook
