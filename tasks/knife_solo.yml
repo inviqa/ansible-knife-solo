@@ -18,15 +18,15 @@
       chef_ssh_host: "{{ ansible_ssh_host }}"
 
 - name: Run knife solo prepare
-  local_action: command knife solo prepare --environment {{environment}} root@{{chef_ssh_host}}
+  local_action: command knife solo prepare --environment {{chef_environment}} {{chef_user}}@{{chef_ssh_host}}
   args:
-      chdir: ../chef
+      chdir: "{{chef_dir}}"
   when: knife_is_installed
 
 - name: Run knife solo cook
-  local_action: command knife solo cook root@{{chef_ssh_host}}
+  local_action: command knife solo cook {{chef_user}}@{{chef_ssh_host}}
   args:
-      chdir: ../chef
+      chdir: "{{chef_dir}}"
   when: knife_is_installed
   register: chef_output
   ignore_errors: true

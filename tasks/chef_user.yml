@@ -7,5 +7,5 @@
     group='root'
     mode='0440'
     validate='visudo -cf %s'
-  when: ansible_distribution == 'CentOS'
+  when: ansible_distribution == 'CentOS' and chef_user == 'root'
 ...

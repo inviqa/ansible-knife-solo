@@ -1,2 +1,4 @@
 ---
+chef_user: root
+chef_dir: ../chef
 ...
