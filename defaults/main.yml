@@ -1,4 +1,7 @@
 ---
-chef_user: root
+chef_use_root: false
+chef_user: "{{ansible_user}}"
 chef_dir: ../chef
+run_knife_solo_prepare: true
+run_knife_solo_cook: false
 ...

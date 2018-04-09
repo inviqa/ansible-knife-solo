@@ -1,7 +1,7 @@
 # ansible-knife-solo
 Ansible role to run knife-solo
 
-This role runs the [knife-solo][knife-solo] against the provisioned server.
+This role runs [knife-solo][knife-solo] against the provisioned server.
 
 ## Requirements
 ------------
@@ -12,21 +12,32 @@ gem "knife-solo_data_bag", "~> 1.1.0"
 ```
 ## Role Variables
 ------------
+#### chef_use_root
+Default: false
+
+When set to true forces `chef_user` to be `root`
+
 #### chef_user
-Default: root
+Default: #{ansible_user}
 
 Define the user using which knife solo should run. It must be a sudo user.
+If `chef_use_root` is true `chef_user` is ignored and forced to `root`.
+If not specified it will use the host's system use `ansible_user`.
 
 #### chef_dir
 Default: ../chef
 
 Path to your chef directory where knife solo should run.
 
-#### chef_environment
-Default: none
+#### run_knife_solo_prepare
+Default: True
 
-Environment name which will be used by knife solo prepare.
+run `knife solo prepare` against the provisioned host
 
+#### run_knife_solo_cook
+Default: True
+
+run `knife solo cook` against the provisioned host
 
 ## Example Playbook
 ----------------
@@ -37,16 +48,9 @@ Environment name which will be used by knife solo prepare.
   roles:
      - { role: inviqa.knife-solo}
   vars:
-    example: 'value'
+    run_knife_solo_cook: true
 ...
 ```
-## TODO
-- [ ] check that Berkshelf is present
-- [ ] run Berkshelf only_once
-- [ ] check that `knife solo` is installed and return a meaningful Ansible WARNING (without breaking the provisioning, just abording the run of this role)
-- [ ] run `knife solo prepare`
-- [ ] run `knife solo cook`
-- [ ] test parallelisation
 
 ## License
 -------

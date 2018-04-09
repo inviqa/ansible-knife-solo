@@ -1,7 +1,7 @@
 ---
 galaxy_info:
   author: "inviqa"
-  description: "runs the knife-solo (https://matschaffer.github.io/knife-solo/) against the provisioned server."
+  description: "runs `knife-solo prepare` (https://matschaffer.github.io/knife-solo/) against the provisioned server."
   company: "Inviqa UK Ltd"
   license: MIT
   min_ansible_version: 1.5

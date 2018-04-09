@@ -1,4 +1,9 @@
 ---
+- name: Set chef_user to root if `chef_use_root` is True
+  set_fact:
+      chef_user: 'root'
+  when: chef_use_root
+
 - name: Add 'root' user to sudoers.d
   template: >
     src='root-sudoers.j2'
@@ -7,5 +12,5 @@
     group='root'
     mode='0440'
     validate='visudo -cf %s'
-  when: ansible_distribution == 'CentOS' and chef_user == 'root'
+  when: ansible_distribution == 'CentOS' and chef_use_root
 ...

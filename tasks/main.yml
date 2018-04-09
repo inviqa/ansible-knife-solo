@@ -1,5 +1,5 @@
 ---
 - include:  berks_install.yml
-- include:  chef_user.yml
+- include:  chef_user_to_root.yml
 - include:  knife_solo.yml
 ...
