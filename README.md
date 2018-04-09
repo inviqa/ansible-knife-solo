@@ -52,6 +52,9 @@ run `knife solo cook` against the provisioned host
 ...
 ```
 
+## Testing
+See README file in the `tests` directory
+
 ## License
 -------
 

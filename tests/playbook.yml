@@ -1,0 +1,19 @@
+---
+- hosts: all
+  gather_facts: yes
+  become: yes
+  # vars_files:
+  #   - ./test_variables.yml
+  vars:
+    chef_use_root: true
+    chef_user: "vagrant"
+    chef_dir: ./chef
+    run_knife_solo_prepare: true
+    run_knife_solo_cook: false
+
+  pre_tasks: []
+
+  roles:
+      - { role: ansible-knife-solo }
+  tasks:
+      - include_tasks: tasks/test_tasks.yml
