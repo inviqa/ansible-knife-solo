@@ -1,0 +1,11 @@
+#!/usr/bin/env ruby
+#^syntax detection
+
+source 'https://supermarket.chef.io'
+
+cookbook 'yum', '~> 3.10.0'
+cookbook 'data-bag-merge', '~> 0.2.4'
+cookbook 'config-driven-helper', '~> 2.7.0'
+cookbook 'swap', '~> 0.3.8'
+cookbook 'sudo', '~> 2.7.0'
+cookbook 'project', :path => './site-cookbooks/project'

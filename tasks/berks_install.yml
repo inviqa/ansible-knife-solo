@@ -10,5 +10,5 @@
 - name: Run berks install
   local_action: command berks install
   args:
-    chdir: ../chef
+    chdir: "{{ chef_dir }}"
 ...
