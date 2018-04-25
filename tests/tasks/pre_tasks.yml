@@ -1,0 +1,27 @@
+---
+
+- name: Get `ssh-agent` status
+  local_action: command type ssh-agent
+  register: ssh_add_status
+  ignore_errors: True
+
+- name: Check if `ssh-agent` is installed
+  set_fact:
+    ssh_add_is_installed: "{{ not ssh_add_status.stderr }}"
+
+- local_action: command echo "Warning ==> ssh-agent is not installed"
+  when: not ssh_add_is_installed
+
+- name: add 'vagrant_ssh_key' to ssh-agent
+  local_action: command ssh-add {{vagrant_ssh_key}}
+  when: ssh_add_is_installed
+  register: ssh_add_output
+  ignore_errors: True
+
+- name: Check if `vagrant_ssh_key` has been added
+  set_fact:
+    vagrant_ssh_key_added: "{{ not ssh_add_output.stderr }}"
+
+- local_action: command echo "Warning ==> vagrant_ssh_key wasn't added to ssh-agent"
+  when: not vagrant_ssh_key_added
+...

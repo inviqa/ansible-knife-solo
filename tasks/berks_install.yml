@@ -7,8 +7,24 @@
 - fail: msg="Error ==> Berkshelf is not installed"
   when: "'not found' in berks_is_installed.stderr"
 
-- name: Run berks install
-  local_action: command berks install
+- debug: msg="{{ lookup('env','USER') }}"
+
+- name: Run `gem env`
+  local_action: command gem env
+  register: gem_env
   args:
     chdir: "{{ chef_dir }}"
+  become: yes
+  become_user: "{{ lookup('env','USER') }}"
+
+
+- debug: msg="{{gem_env}}"
+
+
+- name: Run berks install
+  local_action: command hem exec berks install
+  args:
+    chdir: "{{ chef_dir }}"
+  become: yes
+  become_user: "{{ lookup('env','USER') }}"
 ...

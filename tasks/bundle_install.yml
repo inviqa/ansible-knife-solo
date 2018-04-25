@@ -1,0 +1,20 @@
+---
+- name: Check if `bundle` is installed
+  local_action: command type bundle
+  register: bundle_is_installed
+  ignore_errors: True
+
+- fail: msg="Error ==> `bundle` is not installed"
+  when: "'not found' in bundle_is_installed.stderr"
+
+- name: Install `gems` using `bundle`
+  bundler:
+    state: present
+    user_install: yes
+  register: bundle_env
+  # become: yes
+  # become_user: "{{ lookup('env','USER') }}"
+  delegate_to: localhost
+
+# - debug: msg="{{bundle_env}}"
+...

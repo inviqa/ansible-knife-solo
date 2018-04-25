@@ -1,0 +1,21 @@
+---
+- name: Run `gem env`
+  local_action: command gem env
+  register: gem_env
+  args:
+    chdir: "{{ chef_dir }}"
+  become: yes
+  become_user: "{{ lookup('env','USER') }}"
+
+# - debug: msg="{{gem_env}}"
+
+# - name: Check that `bundle` is installed in local
+
+# - name: Check that `chef` is installed on the host
+#   when: knife_is_installed and run_knife_solo_prepare
+
+# - name: Check that the host has been provisioned
+#   when: knife_is_installed and run_knife_solo_cook
+
+
+...
