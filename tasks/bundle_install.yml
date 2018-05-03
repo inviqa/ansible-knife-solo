@@ -1,11 +1,12 @@
 ---
 - name: Check if `bundle` is installed
-  local_action: command type bundle
+  local_action: shell type bundle
   register: bundle_is_installed
   ignore_errors: True
 
-- fail: msg="Error ==> `bundle` is not installed"
-  when: "'not found' in bundle_is_installed.stderr"
+- fail:
+    msg: "Error ==> `bundle` is not installed"
+  when: "'not found' in bundle_is_installed.stdout"
 
 - name: Install `gems` using `bundle`
   bundler:

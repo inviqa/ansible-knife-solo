@@ -1,6 +1,6 @@
 ---
-- include:  bundle_install.yml
-# - include:  berks_install.yml
-- include:  chef_user_to_root.yml
-- include:  knife_solo.yml
+- include_tasks:  bundle_install.yml
+- include_tasks:  berks_install.yml
+- include_tasks:  chef_user_to_root.yml
+- include_tasks:  knife_solo.yml
 ...

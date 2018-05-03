@@ -1,11 +1,4 @@
 ---
-- name: Run `gem env`
-  local_action: command gem env
-  register: gem_env
-  args:
-    chdir: "{{ chef_dir }}"
-  become: yes
-  become_user: "{{ lookup('env','USER') }}"
 
 # - debug: msg="{{gem_env}}"
 
@@ -14,8 +7,37 @@
 # - name: Check that `chef` is installed on the host
 #   when: knife_is_installed and run_knife_solo_prepare
 
-# - name: Check that the host has been provisioned
-#   when: knife_is_installed and run_knife_solo_cook
+- name: Get `knife` status on the provisioned box
+  shell: type knife
+  register: knife_on_box_status
+  ignore_errors: True
+
+- name: Check if `Chef` has been installed on the provisioned box
+  set_fact:
+    chef_is_installed_on_box: "{{ not 'not found' in knife_on_box_status.stdout }}"
+
+- debug:
+    msg: "Chef was successfully installed on the box"
+  when: chef_is_installed_on_box and run_knife_solo_prepare
+
+- debug:
+    msg: "Chef was NOT successfully installed on the box"
+  when: not chef_is_installed_on_box and run_knife_solo_prepare
+
+- name: Check that the box has been provisioned
+  stat:
+    path: /tmp/test_file
+  register: test_file
+  when: chef_is_installed_on_box and run_knife_solo_cook
+
+- debug:
+    msg: "Test file exists ==> {{ inventory_hostname }} was correctly provisioned with Chef"
+  when: test_file.stat.exists and run_knife_solo_cook
+
+- debug:
+    msg: "Test file not found ==> {{ inventory_hostname }} was NOT correctly provisioned with Chef"
+  when: test_file.stat.exists == False and run_knife_solo_cook
+
 
 
 ...

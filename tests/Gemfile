@@ -8,25 +8,7 @@ group :chef do
 end
 
 group :chef_development do
-  gem "foodcritic", "~> 6.2"
-  gem "chefspec", "~> 4.6"
-  gem "test-kitchen", "~> 1.8.0"
-  gem "kitchen-vagrant", "~> 0.20.0"
-  gem "kitchen-docker", "~> 2.3.0"
-  #gem "rubocop", "~> 0.40.0"
   gem "ohai", "~> 8.17.0"
-end
-
-group :deploy do
-  gem "capistrano", "~> 2.15.5"
-  gem "railsless-deploy", "~> 1.1"
-  gem 'capifony', '~> 2.8.6'
-  gem "compass", "~> 1.0.3"
-end
-
-group :test do
-  # CI / testing
-  gem 'serverspec', '~> 2.31'
 end
 
 # Execution helpers

@@ -43,11 +43,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       ubuntu1604.vm.box = LOCAL_BOX_DIRECTORY + PROVIDER_UNDER_TEST + "-ubuntu1604.box"
     end
     ubuntu1604.vm.network :private_network, ip: NETWORK_PRIVATE_IP_PREFIX + "2"
-
-    # Ansible.
-    ubuntu1604.vm.provision "ansible" do |ansible|
-      ansible.playbook = "playbook.yml"
-    end
+    #
+    # # Ansible.
+    # ubuntu1604.vm.provision "ansible" do |ansible|
+    #   ansible.playbook = "playbook.yml"
+    # end
   end
 
   # Ubuntu 14.04 - Trusty Tahr
@@ -60,10 +60,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     end
     ubuntu1404.vm.network :private_network, ip: NETWORK_PRIVATE_IP_PREFIX + "3"
 
-    # Ansible.
-    ubuntu1404.vm.provision "ansible" do |ansible|
-      ansible.playbook = "playbook.yml"
-    end
+    # # Ansible.
+    # ubuntu1404.vm.provision "ansible" do |ansible|
+    #   ansible.playbook = "playbook.yml"
+    # end
   end
 
   # Ubuntu 12.04 - Precise Pangolin
@@ -92,10 +92,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     end
     centos7.vm.network :private_network, ip: NETWORK_PRIVATE_IP_PREFIX + "5"
 
-    # Ansible.
-    centos7.vm.provision "ansible" do |ansible|
-      ansible.playbook = "playbook.yml"
-    end
+    # # Ansible.
+    # centos7.vm.provision "ansible" do |ansible|
+    #   ansible.playbook = "playbook.yml"
+    # end
   end
 
   # CentOS 6

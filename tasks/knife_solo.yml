@@ -1,29 +1,44 @@
 ---
 
-- name: Get `knife` status
-  local_action: command type knife
+- name: Get `knife` status on the provisioner
+  local_action: shell type knife
   register: knife_status
-  ignore_errors: True
+  ignore_errors: true
 
-- name: Check if `knife` is installed
+- name: Check if `knife` is installed on the provisioner
   set_fact:
-    knife_is_installed: "{{ not knife_status.stderr }}"
+    knife_is_installed: "{{ not 'not found' in knife_status.stdout }}"
 
-- local_action: command echo "Warning ==> Knife solo is not installed"
+- fail:
+    msg: "Warning ==>  Chef is not installed on the provisioner"
   when: not knife_is_installed
 
+- name: Get `knife` status on the provisioned box
+  shell: type knife
+  register: knife_on_box_status
+  ignore_errors: true
+
+- name: Check if `Chef` has been installed on the provisioned box
+  set_fact:
+    chef_is_not_installed_on_box: "{{  'not found' in knife_on_box_status.stdout or 'not found' in knife_on_box_status.stderr  }}"
+
+- debug:
+    msg:  "Warning ==> Chef is not installed on the provisioned box"
+  when: chef_is_not_installed_on_box
+
 - name: Run knife solo prepare
-  local_action: command knife solo prepare {{chef_user}}@{{chef_host}}
+  local_action: shell knife solo prepare {{chef_user}}@{{chef_host}}
   args:
       chdir: "{{chef_dir}}"
-  when: knife_is_installed and run_knife_solo_prepare
+  when: knife_is_installed and run_knife_solo_prepare and chef_is_not_installed_on_box
   register: chef_output
   ignore_errors: true
 
 - debug: var=chef_output.stdout_lines
+  when: knife_is_installed and run_knife_solo_prepare and not chef_is_not_installed_on_box
 
 - name: Run knife solo cook
-  local_action: command knife solo cook {{chef_user}}@{{chef_host}}
+  local_action: shell knife solo cook {{chef_user}}@{{chef_host}}
   args:
       chdir: "{{chef_dir}}"
   when: knife_is_installed and run_knife_solo_cook
@@ -31,4 +46,5 @@
   ignore_errors: true
 
 - debug: var=chef_output.stdout_lines
+  when: knife_is_installed and run_knife_solo_cook
 ...

@@ -1,30 +1,12 @@
 ---
-- name: Check if berks installed
+- name: Check if `berks` installed
   local_action: shell type berks
   register: berks_is_installed
   ignore_errors: True
+  when: run_knife_solo_cook
 
-- fail: msg="Error ==> Berkshelf is not installed"
-  when: "'not found' in berks_is_installed.stderr"
+- fail:
+    msg: "Error ==> Berkshelf is not installed"
+  when: "'not found' in berks_is_installed.stdout and run_knife_solo_cook"
 
-- debug: msg="{{ lookup('env','USER') }}"
-
-- name: Run `gem env`
-  local_action: command gem env
-  register: gem_env
-  args:
-    chdir: "{{ chef_dir }}"
-  become: yes
-  become_user: "{{ lookup('env','USER') }}"
-
-
-- debug: msg="{{gem_env}}"
-
-
-- name: Run berks install
-  local_action: command hem exec berks install
-  args:
-    chdir: "{{ chef_dir }}"
-  become: yes
-  become_user: "{{ lookup('env','USER') }}"
 ...
