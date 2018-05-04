@@ -12,18 +12,14 @@
     vagrant_ssh_key: "{{ ansible_ssh_private_key_file }}"
   tasks:
     - include_tasks: tasks/run_vagrant.yml
-    # A helpful reminder of what to look out for post-update.
     - pause: seconds=3
     - include_tasks: tasks/load_vagrant_ssh_key.yml
 
 - hosts: all:!localhost
   gather_facts: yes
-  # vars_files:
-  #   - ./test_variables.yml
   vars:
+    ansible_ssh_common_args: '-o StrictHostKeyChecking=no'
     ansible_ssh_user: 'vagrant'
-    # ansible_ssh_private_key_file: '.vagrant/machines/{{ inventory_hostname}}/virtualbox/private_key'
-    # vagrant_ssh_key: "{{ ansible_ssh_private_key_file }}"
     ansible_ssh_port: 22
     chef_use_root: false
     chef_user: "{{ ansible_ssh_user}}"
