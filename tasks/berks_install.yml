@@ -7,6 +7,6 @@
 
 - fail:
     msg: "Error ==> Berkshelf is not installed"
-  when: "'not found' in berks_is_installed.stdout and run_knife_solo_cook"
+  when: "run_knife_solo_cook and 'not found' in berks_is_installed.stdout"
 
 ...

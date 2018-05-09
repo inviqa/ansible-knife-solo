@@ -28,15 +28,15 @@
   stat:
     path: /tmp/test_file
   register: test_file
-  when: chef_is_installed_on_box and run_knife_solo_cook
+  when: run_knife_solo_cook and chef_is_installed_on_box
 
 - debug:
     msg: "Test file exists ==> {{ inventory_hostname }} was correctly provisioned with Chef"
-  when: test_file.stat.exists and run_knife_solo_cook
+  when: run_knife_solo_cook and chef_is_installed_on_box and test_file.stat.exists
 
 - debug:
     msg: "Test file not found ==> {{ inventory_hostname }} was NOT correctly provisioned with Chef"
-  when: test_file.stat.exists == False and run_knife_solo_cook
+  when: run_knife_solo_cook and chef_is_installed_on_box and test_file.stat.exists == False
 
 
 
