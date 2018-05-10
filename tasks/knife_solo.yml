@@ -27,7 +27,7 @@
   when: chef_is_not_installed_on_box
 
 - name: Run knife solo prepare
-  local_action: shell knife solo prepare {{chef_user}}@{{chef_host}}
+  local_action: shell bundle exec knife solo prepare {{chef_user}}@{{chef_host}}
   args:
       chdir: "{{chef_dir}}"
   when: knife_is_installed and run_knife_solo_prepare and chef_is_not_installed_on_box
@@ -38,7 +38,7 @@
   when: knife_is_installed and run_knife_solo_prepare and not chef_is_not_installed_on_box
 
 - name: Run knife solo cook
-  local_action: shell knife solo cook {{chef_user}}@{{chef_host}}
+  local_action: shell bundle exec knife solo cook {{chef_user}}@{{chef_host}}
   args:
       chdir: "{{chef_dir}}"
   when: knife_is_installed and run_knife_solo_cook

@@ -12,6 +12,7 @@
   bundler:
     state: present
     user_install: yes
+    gem_path: .bundle/
   register: bundle_env
   # become: yes
   # become_user: "{{ lookup('env','USER') }}"
