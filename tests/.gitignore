@@ -4,3 +4,4 @@ test_variables.yml
 *.retry
 .bundle
 !Gemfile.lock
+!Berksfile.lock

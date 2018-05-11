@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 #^syntax detection
 
-# source 'https://supermarket.chef.io'
+source 'https://supermarket.chef.io'
 #
 # cookbook 'yum', '~> 3.10.0'
 # cookbook 'data-bag-merge', '~> 0.2.4'
