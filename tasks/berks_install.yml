@@ -1,14 +1,13 @@
 ---
-- name: Check if berks installed
+- name: Check if `berks` installed on the provisioner
   local_action: shell type berks
   register: berks_is_installed
   ignore_errors: True
+  when: run_knife_solo_cook
+  run_once: true
 
-- fail: msg="Error ==> Berkshelf is not installed"
-  when: "'not found' in berks_is_installed.stderr"
-
-- name: Run berks install
-  local_action: command berks install
-  args:
-    chdir: ../chef
+- fail:
+    msg: "Error ==> Berkshelf is not installed"
+  when: "run_knife_solo_cook and 'not found' in berks_is_installed.stdout"
+  run_once: true
 ...

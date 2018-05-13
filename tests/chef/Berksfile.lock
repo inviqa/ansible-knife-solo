@@ -1,0 +1,6 @@
+DEPENDENCIES
+  project
+    path: site-cookbooks/project
+
+GRAPH
+  project (0.0.0)

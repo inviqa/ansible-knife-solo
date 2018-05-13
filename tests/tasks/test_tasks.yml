@@ -1,0 +1,35 @@
+---
+
+- name: Get `knife` status on the provisioned box
+  shell: type knife
+  register: knife_on_box_status
+  ignore_errors: True
+
+- set_fact:
+    chef_is_installed_on_box: "{{ not 'not found' in knife_on_box_status.stdout }}"
+
+- debug:
+    msg: "Chef was successfully installed on the box"
+  when: chef_is_installed_on_box and run_knife_solo_prepare
+
+- debug:
+    msg: "Chef was NOT successfully installed on the box"
+  when: not chef_is_installed_on_box and run_knife_solo_prepare
+
+- name: Check that the box has been provisioned
+  stat:
+    path: /tmp/test_file
+  register: test_file
+  when: run_knife_solo_cook and chef_is_installed_on_box
+
+- debug:
+    msg: "Test file exists ==> {{ inventory_hostname }} was correctly provisioned with Chef"
+  when: run_knife_solo_cook and chef_is_installed_on_box and test_file.stat.exists
+
+- debug:
+    msg: "Test file not found ==> {{ inventory_hostname }} was NOT correctly provisioned with Chef"
+  when: run_knife_solo_cook and chef_is_installed_on_box and test_file.stat.exists == False
+
+
+
+...

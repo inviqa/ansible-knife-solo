@@ -1,0 +1,17 @@
+source "https://rubygems.org"
+
+group :chef do
+  gem "berkshelf", "~> 4.3"
+  gem "chef", "~> 12.10.24"
+  gem "knife-solo", "~> 0.6.0"
+end
+
+group :chef_development do
+  gem "ohai", "~> 8.17.0"
+end
+
+# Execution helpers
+if Bundler.settings[:path].nil?
+  gem 'rubygems-bundler', '~> 1.4.4'
+  gem 'executable-hooks', '~> 1.3.2'
+end

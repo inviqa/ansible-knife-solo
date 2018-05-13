@@ -1,7 +1,14 @@
-# ansible-knife-solo
-Ansible role to run knife-solo
+# README.md
+# Ansible Role: ansible-knife-solo 1.0
 
-This role runs the [knife-solo][knife-solo] against the provisioned server.
+An Ansible role to run knife-solo for a provisioned host
+
+This role runs [knife-solo][knife-solo] to:
+- install Chef on the provisioned hosts
+- provision the provisioned host with Chef
+
+This is useful if you have an hybrid provisioning configuration where you provision a host via Ansible to create the VM and install basic system configurations, then you want to complete the system setup with Chef.
+This is quite helpful for UAT pipeline environments where you could create a VM or server from scratch then run Chef for the first time, and then choose to maintain the server updated with Chef for future upgrades.
 
 ## Requirements
 ------------
@@ -12,12 +19,32 @@ gem "knife-solo_data_bag", "~> 1.1.0"
 ```
 ## Role Variables
 ------------
-#### [`exaple`][example]
-Default: none
+#### chef_use_root
+Default: false
 
-Description
+When set to true forces `chef_user` to be `root`
 
+#### chef_user
+Default: #{ansible_user}
 
+Define the user using which knife solo should run. It must be a sudo user.
+If `chef_use_root` is true `chef_user` is ignored and forced to `root`.
+If not specified it will use the host's system use `ansible_user`.
+
+#### chef_dir
+Default: ../chef
+
+Path to your chef directory where knife solo should run.
+
+#### run_knife_solo_prepare
+Default: True
+
+run `knife solo prepare` against the provisioned host
+
+#### run_knife_solo_cook
+Default: True
+
+run `knife solo cook` against the provisioned host
 
 ## Example Playbook
 ----------------
@@ -28,16 +55,12 @@ Description
   roles:
      - { role: inviqa.knife-solo}
   vars:
-    example: 'value'
+    run_knife_solo_cook: true
 ...
 ```
-## TODO
-- [ ] check that Berkshelf is present
-- [ ] run Berkshelf only_once
-- [ ] check that `knife solo` is installed and return a meaningful Ansible WARNING (without breaking the provisioning, just abording the run of this role)
-- [ ] run `knife solo prepare`
-- [ ] run `knife solo cook`
-- [ ] test parallelisation
+
+## Testing
+See README file in the `tests` directory
 
 ## License
 -------

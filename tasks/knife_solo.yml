@@ -1,35 +1,51 @@
 ---
-- name: Get knife status
+
+- name: Check if `Knife` is installed on the provisioner
   local_action: shell type knife
   register: knife_status
-  ignore_errors: True
+  ignore_errors: true
+  run_once: true
 
-- name: Check if knife is installed
-  set_fact:
-    knife_is_installed: "{{ not knife_status.stderr }}"
+- set_fact:
+    knife_is_installed: "{{ not 'not found' in knife_status.stdout }}"
+  run_once: true
 
-- name: Show warning if knife solo is not installed
-  local_action: shell echo "Warning ==> Knife solo is not installed"
+- fail:
+    msg: "Warning ==>  Knife is not installed on the provisioner"
   when: not knife_is_installed
+  run_once: true
 
+- name: Check if `Chef` has been installed on the provisioned box
+  shell: type knife
+  register: knife_on_box_status
+  ignore_errors: true
 
-- name: Copy ansible_ssh_host in a var for using in local_action
-  set_fact:
-      chef_ssh_host: "{{ ansible_ssh_host }}"
+- set_fact:
+    chef_is_not_installed_on_box: "{{  'not found' in knife_on_box_status.stdout or 'not found' in knife_on_box_status.stderr  }}"
 
-- name: Run knife solo prepare
-  local_action: command knife solo prepare --environment {{environment}} root@{{chef_ssh_host}}
+- debug:
+    msg:  "Warning ==> Chef is not installed on the provisioned box"
+  when: chef_is_not_installed_on_box
+
+- name: Run `knife solo prepare` to install 'Chef' on the provisioned host
+  local_action: shell bundle exec knife solo prepare {{chef_user}}@{{chef_host}}
   args:
-      chdir: ../chef
-  when: knife_is_installed
-
-- name: Run knife solo cook
-  local_action: command knife solo cook root@{{chef_ssh_host}}
-  args:
-      chdir: ../chef
-  when: knife_is_installed
+      chdir: "{{chef_dir}}"
+  when: knife_is_installed and run_knife_solo_prepare and chef_is_not_installed_on_box
   register: chef_output
   ignore_errors: true
 
 - debug: var=chef_output.stdout_lines
+  when: knife_is_installed and run_knife_solo_prepare and not chef_is_not_installed_on_box
+
+- name: Run `knife solo cook` to provision the host with `Chef`
+  local_action: shell bundle exec knife solo cook {{chef_user}}@{{chef_host}}
+  args:
+      chdir: "{{chef_dir}}"
+  when: knife_is_installed and run_knife_solo_cook
+  register: chef_output
+  ignore_errors: true
+
+- debug: var=chef_output.stdout_lines
+  when: knife_is_installed and run_knife_solo_cook
 ...
