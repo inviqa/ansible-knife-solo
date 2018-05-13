@@ -1,7 +1,14 @@
-# ansible-knife-solo
-Ansible role to run knife-solo
+# README.md
+# Ansible Role: ansible-knife-solo 1.0
 
-This role runs [knife-solo][knife-solo] against the provisioned server.
+An Ansible role to run knife-solo for a provisioned host
+
+This role runs [knife-solo][knife-solo] to:
+- install Chef on the provisioned hosts
+- provision the provisioned host with Chef
+
+This is useful if you have an hybrid provisioning configuration where you provision a host via Ansible to create the VM and install basic system configurations, then you want to complete the system setup with Chef.
+This is quite helpful for UAT pipeline environments where you could create a VM or server from scratch then run Chef for the first time, and then choose to maintain the server updated with Chef for future upgrades.
 
 ## Requirements
 ------------

@@ -1,7 +1,7 @@
 ---
 galaxy_info:
-  author: "inviqa"
-  description: "runs `knife-solo prepare` (https://matschaffer.github.io/knife-solo/) against the provisioned server."
+  author: Marco Massari Calderone
+  description: "Install Chef and `knife-solo` on the provisiond host"
   company: "Inviqa UK Ltd"
   license: MIT
   min_ansible_version: 1.5
