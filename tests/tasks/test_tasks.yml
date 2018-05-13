@@ -1,12 +1,5 @@
 ---
 
-# - debug: msg="{{gem_env}}"
-
-# - name: Check that `bundle` is installed in local
-
-# - name: Check that `chef` is installed on the host
-#   when: knife_is_installed and run_knife_solo_prepare
-
 - name: Get `knife` status on the provisioned box
   shell: type knife
   register: knife_on_box_status

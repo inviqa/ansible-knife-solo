@@ -3,7 +3,7 @@
 - name: Get `ssh-agent` status
   local_action: shell type ssh-agent
   register: ssh_agent_status
-  ignore_errors: True
+  ignore_errors: true
 
 - name: Check if `ssh-agent` is installed
   set_fact:

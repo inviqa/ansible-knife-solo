@@ -21,11 +21,11 @@ Ansible will install Chef's Knife in the hostw and VMs and then will run `knife 
 
 At the end of the provisioning Ansible will run a few test-tasks that will verify if the temporary file has been properly created by the test Chef `site-cookbook` and will prompt with the result of the verification.
 
-this is the command to start the testing process the use of the `-l <inventory_hostname>` parameter is optional and is useful to run the test on a specific vm instead of all of them.
+this is the command to start the testing process the use of the `-l <inventory_group_name>|<inventory_hostname>` parameter is optional and is useful to run the test on a specific vm instead of all of them.
 
 ```
 cd  ./tests
-ansible-playbook -i inventory [ -l centos6,centos7,ubuntu1202,ubuntu1402,ubuntu1602 ] playbook.yml
+ansible-playbook -i inventory [ -l centos,ubuntu | centos6,centos7,ubuntu1202,ubuntu1402,ubuntu1602 ] playbook.yml
 ```
 
 This command is to to run a playbook which will instruct Vagrant to destroy the testing vms.

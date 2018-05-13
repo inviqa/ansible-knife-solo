@@ -1,14 +1,16 @@
 ---
-- name: Check if `bundle` is installed
+- name: Check if `bundle` is installed on the provisioner
   local_action: shell type bundle
   register: bundle_is_installed
   ignore_errors: True
+  run_once: true
 
 - fail:
     msg: "Error ==> `bundle` is not installed"
   when: "'not found' in bundle_is_installed.stdout"
+  run_once: true
 
-- name: Install `gems` using `bundle`
+- name: Install `gems` using `bundle` on the provisioner
   bundler:
     state: present
     user_install: yes
@@ -17,4 +19,5 @@
   run_once: true
 
 - debug: msg="{{bundle_env}}"
+  run_once: true
 ...
