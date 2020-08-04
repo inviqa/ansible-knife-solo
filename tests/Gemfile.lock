@@ -89,7 +89,7 @@ GEM
     hitimes (1.2.6)
     httpclient (2.7.2)
     ipaddress (0.8.3)
-    json (2.1.0)
+    json (2.3.1)
     knife-solo (0.6.0)
       chef (>= 10.20)
       erubis (~> 2.7.0)
